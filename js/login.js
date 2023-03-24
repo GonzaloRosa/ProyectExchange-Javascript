@@ -1,13 +1,13 @@
-const username = document.querySelector('#username')
-const password = document.querySelector('#password')
-const button = document.querySelector('#button')
+const usuario = document.querySelector('#usuario')
+const contraseña = document.querySelector('#contraseña')
+const boton = document.querySelector('#boton')
 
 //Evento
-button.addEventListener('click', (e) => {
+boton.addEventListener('click', (e) => {
     e.preventDefault()
     const data = {
-        username: username.value,
-        password: password.value
+        usuario: usuario.value,
+        contraseña: contraseña.value
     }
 
     console.log(data)

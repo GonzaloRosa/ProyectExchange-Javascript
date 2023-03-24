@@ -1,54 +1,54 @@
 //Array de objetos
 const monedas = [{
-    code: 'USD',
-    name: 'Dólar estadounidense'
+    codigo: 'USD',
+    nombre: 'Dólar estadounidense'
   },
   {
-    code: 'EUR',
-    name: 'Euro'
+    codigo: 'EUR',
+    nombre: 'Euro'
   },
   {
-    code: 'JPY',
-    name: 'Yen japonés'
+    codigo: 'JPY',
+    nombre: 'Yen japonés'
   },
   {
-    code: 'GBP',
-    name: 'Libra esterlina'
+    codigo: 'GBP',
+    nombre: 'Libra esterlina'
   },
   {
-    code: 'AUD',
-    name: 'Dólar australiano'
+    codigo: 'AUD',
+    nombre: 'Dólar australiano'
   },
   {
-    code: 'CAD',
-    name: 'Dólar canadiense'
+    codigo: 'CAD',
+    nombre: 'Dólar canadiense'
   },
   {
-    code: 'CHF',
-    name: 'Franco suizo'
+    codigo: 'CHF',
+    nombre: 'Franco suizo'
   },
   {
-    code: 'CNY',
-    name: 'Yuan chino'
+    codigo: 'CNY',
+    nombre: 'Yuan chino'
   },
   {
-    code: 'MXN',
-    name: 'Peso mexicano'
+    codigo: 'MXN',
+    nombre: 'Peso mexicano'
   },
   {
-    code: 'NZD',
-    name: 'Dólar neozelandés'
+    codigo: 'NZD',
+    nombre: 'Dólar neozelandés'
   },
   {
-    code: 'ARS',
-    name: 'Peso Argentino'
+    codigo: 'ARS',
+    nombre: 'Peso Argentino'
   },
 ];
 
 //DOM
-const fromSelect = document.querySelector('#from');
-const toSelect = document.querySelector('#to');
-const amountInput = document.querySelector('#amount');
+const deSelector = document.querySelector('#from');
+const aSelector = document.querySelector('#to');
+const montoInput = document.querySelector('#amount');
 const resultDiv = document.querySelector('#result');
 const cotizador = document.querySelector('#cotizador')
 
@@ -56,32 +56,32 @@ const cotizador = document.querySelector('#cotizador')
 cotizador.onclick = convert
 
 // Iterador For
-for (let currency of monedas) {
-  const fromOption = document.createElement('option');
-  const toOption = document.createElement('option');
-  fromOption.value = currency.code;
-  toOption.value = currency.code;
-  fromOption.text = currency.name;
-  toOption.text = currency.name;
-  fromSelect.appendChild(fromOption);
-  toSelect.appendChild(toOption);
+for (let divisa of monedas) {
+  const deOpcion = document.createElement('option');
+  const aOpcion = document.createElement('option');
+  deOpcion.value = divisa.codigo;
+  aOpcion.value = divisa.codigo;
+  deOpcion.text = divisa.nombre;
+  aOpcion.text = divisa.nombre;
+  deSelector.appendChild(deOpcion);
+  aSelector.appendChild(aOpcion);
 }
 
 //Function
 function convert() {
-  const from = fromSelect.value;
-  const to = toSelect.value;
-  const amount = amountInput.value;
+  const from = deSelector.value;
+  const to = aSelector.value;
+  const amount = montoInput.value;
   const url = `https://api.exchangerate-api.com/v4/latest/${from}`;
 
-//AJAX Y Fetch y promesa
+  //AJAX Y Fetch y promesa
   fetch(url)
     .then(response => response.json())
     .then(data => {
       const rate = data.rates[to];
       const result = amount * rate;
-      
-//Asincronia
+
+      //Asincronia
       setTimeout(() => {
         resultDiv.innerHTML = `<h3 style="color: black; font-size: 60px; background-color: yellow;">
         Total: ${amount} ${from} = ${result} ${to}</h3>`;
@@ -91,39 +91,36 @@ function convert() {
 }
 
 //Libreria JQuery
-
-
-
-
+$("#modo-oscuro-alternar").css({
+  "padding": "10px",
+  "background-color": "#0088ff",
+  "color": "rgb(255, 255, 255)",
+  "border": "none",
+  "border-radius": "5px",
+  "cursor": "pointer"
+})
 
 //------------------------------Modo oscuro------------------------------
 
-const darkModeToggle = document.querySelector('#dark-mode-toggle');
+const cambiarModoOscuro = document.querySelector('#modo-oscuro-alternar');
 const body = document.body;
 
 // Función que cambia entre los modos claro y oscuro
-function toggleDarkMode() {
-  body.classList.toggle('dark-mode');
-  
+function modoOscuroAlternado() {
+  body.classList.toggle('modo-oscuro');
+
   // Guardar el estado del modo oscuro en el almacenamiento local
-  if (body.classList.contains('dark-mode')) {
-    darkModeToggle.textContent = 'Cambiar a modo claro'
-    localStorage.setItem('dark-mode', 'enabled');
+  if (body.classList.contains('modo-oscuro')) {
+    cambiarModoOscuro.textContent = 'Cambiar a modo claro'
+    localStorage.setItem('modo-oscuro', 'activado');
   } else {
-    darkModeToggle.textContent = 'Cambiar a modo oscuro'
-    localStorage.setItem('dark-mode', 'disabled');
+    cambiarModoOscuro.textContent = 'Cambiar a modo oscuro'
+    localStorage.setItem('modo-oscuro', 'desactivado');
   }
 }
 
+cambiarModoOscuro.addEventListener('click', modoOscuroAlternado);
 
-
-// Agregar el evento click al botón para cambiar entre los modos claro y oscuro
-darkModeToggle.addEventListener('click', toggleDarkMode);
-
-// Verificar el estado del modo oscuro almacenado en el almacenamiento local
-const darkMode = localStorage.getItem('dark-mode');
-if (darkMode === 'enabled') {
-  body.classList.add('dark-mode');
-}
-
-
+const modoOscuro = localStorage.getItem('modo-oscuro');
+// Operador Ternario
+modoOscuro === 'activado' ? body.classList.add('modo-oscuro') : ''
